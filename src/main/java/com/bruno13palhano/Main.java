@@ -30,37 +30,37 @@ public class Main {
         }
     }
 
-    static void mergeSort(int[] array, int start, int end) {
-        if (start < end) {
-            int middle = (start+end) / 2;
-            mergeSort(array, start, middle);
-            mergeSort(array, middle + 1, end);
-            merge(array, start, middle, end);
+    static void mergeSort(int[] workspace, int lowerBound, int upperBound) {
+        if (lowerBound < upperBound) {
+            int middle = (lowerBound+upperBound) / 2;
+            mergeSort(workspace, lowerBound, middle);
+            mergeSort(workspace, middle + 1, upperBound);
+            merge(workspace, lowerBound, middle, upperBound);
         }
     }
 
-    static void merge(int[] array, int start, int middle, int end) {
-        int leftSize = middle - start + 1;
-        int rightSize = end - middle;
+    static void merge(int[] workspace, int lowerBound, int middle, int upperBound) {
+        int leftSize = middle - lowerBound + 1;
+        int rightSize = upperBound - middle;
         int[] leftArray = new int[leftSize];
         int[] rightArray = new int[rightSize];
 
-        int i, j, k = start;
+        int i, j, k = lowerBound;
 
-        for (i = 0; i < leftSize; i++) leftArray[i] = array[start + i];
+        for (i = 0; i < leftSize; i++) leftArray[i] = workspace[lowerBound + i];
 
-        for (j = 0; j < rightSize; j++) rightArray[j] = array[middle + j + 1];
+        for (j = 0; j < rightSize; j++) rightArray[j] = workspace[middle + j + 1];
 
         i = 0;
         j = 0;
 
         while (i < leftSize && j < rightSize) {
-            if (leftArray[i] <= rightArray[j]) array[k++] = leftArray[i++];
-            else array[k++] = rightArray[j++];
+            if (leftArray[i] <= rightArray[j]) workspace[k++] = leftArray[i++];
+            else workspace[k++] = rightArray[j++];
         }
 
-        while (i < leftSize) array[k++] = leftArray[i++];
+        while (i < leftSize) workspace[k++] = leftArray[i++];
 
-        while (j < rightSize) array[k++] = rightArray[j++];
+        while (j < rightSize) workspace[k++] = rightArray[j++];
     }
 }
